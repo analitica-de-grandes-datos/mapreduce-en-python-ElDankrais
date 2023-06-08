@@ -2,29 +2,24 @@
 # >>> Escriba el codigo del reducer a partir de este punto <<<
 #
 import sys
-biggest_purposes = []
-count_elements_col_3 = 0
+elements = {}
+def clear_spaces(x):
+    x = x.replace("\n", "")
+    x = x.replace("\r", "")
+    return x
 
-
-def set_bigger_purpose(array_purposes, actual_element):
-    actual_element = actual_element.replace("\n", "")
-    biggest_purposes.append(actual_element)
-    return array_purposes
-
-
-def sortByColumn3(element):
-    return int(element.split(";")[0])
-
+def set_bigger_smaller_amount(elements, actual_element):
+    element_array = actual_element.split("*")
+    if element_array[0] in elements:
+        elements[element_array[0]] = elements.get(element_array[0]) +  [int(clear_spaces(element_array[1]))]
+    else:
+        elements[element_array[0]] = [int(clear_spaces(element_array[1]))]
+    return elements
 
 for line in sys.stdin:
-    set_bigger_purpose(biggest_purposes, line)
+    set_bigger_smaller_amount(elements, line)
 
-biggest_purposes.sort(key=sortByColumn3)
-
-for purpose in biggest_purposes:
-    count_elements_col_3 = count_elements_col_3 + 1
-    element = purpose.split(";")
-    print(element[1]+ "   " + element[2] + "   " + element [0])
-    if count_elements_col_3 > 5:
-        break
-     
+for element, array in  elements.items():
+    array = ','.join(str(v) for v in sorted(array))
+    print(element + "	" + array)
+    

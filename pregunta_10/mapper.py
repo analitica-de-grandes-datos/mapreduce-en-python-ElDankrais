@@ -6,15 +6,14 @@ import sys
 def clear_spaces(x):
     x = x.replace("\n", "")
     x = x.replace("\r", "")
-    x = x.replace("\t", "")
     return x
 
 def purpose_amount(x):
-    return   clear_spaces(x[2]) + ";"+  clear_spaces(x[0])+ ";" + clear_spaces(x[1])  
-    #return   int(clear_spaces(x[2]))
-
+    return  clear_spaces(x[0]), clear_spaces(x[1]).split(",")
 
 for line in sys.stdin:
     line = line.replace("'","")
-    result = line.split('   ')
-    print(purpose_amount(result))
+    result = line.split('\t')
+    number, array = purpose_amount(result) 
+    for letter_array in array:
+        print(letter_array + "*" + number)
